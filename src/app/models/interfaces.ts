@@ -1,16 +1,14 @@
-export interface Event {
-  id?: string;
+export interface UserEvent {
+  id: string;
   name: string;
   banner?: string;
   description?: string;
   created_at?: string;
   updated_at?: string;
-  startAt: Date;
-  endAt: Date;
+  startAt: string;
+  endAt: string;
   location: string;
   maxParticipants: number;
-  categoryId?: string;
-  organizerId?: string;
   participants?: number;
   organizer: User;
   category: Category;
@@ -26,4 +24,5 @@ export interface User {
   email: string;
   password: string;
   name: string;
+  phone: string;
 }

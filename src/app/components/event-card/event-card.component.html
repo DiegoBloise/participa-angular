@@ -1,1 +1,80 @@
-<p>event-card works!</p>
+<p-card class="relative" [style]="{ width: '25rem', overflow: 'hidden' }">
+  <ng-template #header>
+    <p-tag
+      class="text-3xl absolute top-[1rem] right-[1rem]"
+      value="{{ userEvent().category.title }}"
+      [rounded]="true"
+    />
+    <img
+      alt="Event Banner"
+      class="w-full"
+      [src]="
+        userEvent().banner ? userEvent().banner : 'https://placehold.co/600x400'
+      "
+      (error)="onImageError($event)"
+    />
+  </ng-template>
+  <ng-template #title>
+    <h2 class="text-2xl">{{ userEvent().name }}</h2>
+  </ng-template>
+  <ng-template #subtitle>
+    <p>{{ userEvent().description }}</p>
+  </ng-template>
+  <div class="my-2 gap-2 flex flex-col text-surface-600">
+    <p>
+      <i class="pi pi-calendar-clock mr-1"></i>
+      {{ userEvent().startAt | date : "EEEE, d 'de' MMMM 'de' y 'às' HH:mm" }}
+    </p>
+    <p>
+      <i class="pi pi-map-marker mr-1"></i>
+      {{ userEvent().location }}
+    </p>
+  </div>
+  <ng-template #footer>
+    <div class="flex gap-4 mt-5 justify-between items-center">
+      <div class="flex items-center">
+        <p-avatar
+          label="{{ userEvent().organizer.name[0] }}"
+          class="mr-2"
+          size="large"
+          shape="circle"
+        />
+        <div class="flex flex-col">
+          <h3 class="font-bold text-surface-600">
+            {{ userEvent().organizer.name }}
+          </h3>
+          <p
+            [title]="
+              userEvent().organizer.email.length > 20
+                ? userEvent().organizer.email
+                : ''
+            "
+          >
+            {{
+              userEvent().organizer.email.length > 20
+                ? (userEvent().organizer.email | slice : 0 : 20) + "..."
+                : userEvent().organizer.email
+            }}
+          </p>
+        </div>
+      </div>
+      <div class="flex gap-1">
+        <p-button
+          pTooltip="Gostei"
+          tooltipPosition="left"
+          icon="pi pi-heart"
+          [rounded]="true"
+          [text]="true"
+          (onClick)="likeEvent(userEvent().id)"
+        />
+        <p-button
+          pTooltip="Compartilhar"
+          tooltipPosition="left"
+          icon="pi pi-share-alt"
+          [rounded]="true"
+          [text]="true"
+        />
+      </div>
+    </div>
+  </ng-template>
+</p-card>
