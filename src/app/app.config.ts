@@ -1,14 +1,11 @@
+import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
-
-import { routes } from './app.routes';
-
+import { definePreset } from '@primeng/themes';
 import Lara from '@primeng/themes/lara';
 import { providePrimeNG } from 'primeng/config';
-
-import { provideHttpClient } from '@angular/common/http';
-import { definePreset } from '@primeng/themes';
+import { routes } from './app.routes';
 
 const MyPreset = definePreset(Lara, {
   primitive: {
@@ -320,17 +317,17 @@ const MyPreset = definePreset(Lara, {
     iconSize: '1rem',
     anchorGutter: '2px',
     primary: {
-      50: '{violet.50}',
-      100: '{violet.100}',
-      200: '{violet.200}',
-      300: '{violet.300}',
-      400: '{violet.400}',
-      500: '{violet.500}',
-      600: '{violet.600}',
-      700: '{violet.700}',
-      800: '{violet.800}',
-      900: '{violet.900}',
-      950: '{violet.950}',
+      50: '{blue.50}',
+      100: '{blue.100}',
+      200: '{blue.200}',
+      300: '{blue.300}',
+      400: '{blue.400}',
+      500: '{blue.500}',
+      600: '{blue.600}',
+      700: '{blue.700}',
+      800: '{blue.800}',
+      900: '{blue.900}',
+      950: '{blue.950}',
     },
     formField: {
       paddingX: '0.75rem',
@@ -421,17 +418,17 @@ const MyPreset = definePreset(Lara, {
       light: {
         surface: {
           0: '#ffffff',
-          50: '{zinc.50}',
-          100: '{zinc.100}',
-          200: '{zinc.200}',
-          300: '{zinc.300}',
-          400: '{zinc.400}',
-          500: '{zinc.500}',
-          600: '{zinc.600}',
-          700: '{zinc.700}',
-          800: '{zinc.800}',
-          900: '{zinc.900}',
-          950: '{zinc.950}',
+          50: '#f8fafc',
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#94a3b8',
+          500: '#64748b',
+          600: '#475569',
+          700: '#334155',
+          800: '#1e293b',
+          900: '#0f172a',
+          950: '#020617',
         },
         primary: {
           color: '{primary.500}',
@@ -546,17 +543,17 @@ const MyPreset = definePreset(Lara, {
       dark: {
         surface: {
           0: '#ffffff',
-          50: '{zinc.50}',
-          100: '{zinc.100}',
-          200: '{zinc.200}',
-          300: '{zinc.300}',
-          400: '{zinc.400}',
-          500: '{zinc.500}',
-          600: '{zinc.600}',
-          700: '{zinc.700}',
-          800: '{zinc.800}',
-          900: '{zinc.900}',
-          950: '{zinc.950}',
+          50: '#fafafa',
+          100: '#f4f4f5',
+          200: '#e4e4e7',
+          300: '#d4d4d8',
+          400: '#a1a1aa',
+          500: '#71717a',
+          600: '#52525b',
+          700: '#3f3f46',
+          800: '#27272a',
+          900: '#18181b',
+          950: '#09090b',
         },
         primary: {
           color: '{primary.400}',
@@ -680,6 +677,9 @@ export const appConfig: ApplicationConfig = {
     providePrimeNG({
       theme: {
         preset: MyPreset,
+        options: {
+          darkModeSelector: false || 'none',
+        },
       },
       ripple: true,
     }),
