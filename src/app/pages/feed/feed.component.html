@@ -7,8 +7,13 @@
 
   <div class="flex flex-wrap gap-3 justify-center m-auto">
     @for (event of events; track $index) {
-    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+    <p-card class="relative" [style]="{ width: '25rem', overflow: 'hidden' }">
       <ng-template #header>
+        <p-tag
+          class="text-3xl absolute top-[1rem] right-[1rem]"
+          value="{{ event.category.title }}"
+          [rounded]="true"
+        />
         <img
           alt="Event Banner"
           class="w-full"
@@ -45,16 +50,36 @@
               <h3 class="font-bold text-surface-600">
                 {{ event.organizer.name }}
               </h3>
-              <p>{{ event.organizer.email }}</p>
+              <p
+                [title]="
+                  event.organizer.email.length > 20 ? event.organizer.email : ''
+                "
+              >
+                {{
+                  event.organizer.email.length > 20
+                    ? (event.organizer.email | slice : 0 : 20) + "..."
+                    : event.organizer.email
+                }}
+              </p>
             </div>
           </div>
-          <p-button
-            pTooltip="Compartilhar"
-            tooltipPosition="left"
-            icon="pi pi-share-alt"
-            [rounded]="true"
-            [text]="true"
-          />
+          <div class="flex gap-1">
+            <p-button
+              pTooltip="Gostei"
+              tooltipPosition="left"
+              icon="pi pi-heart"
+              [rounded]="true"
+              [text]="true"
+              (onClick)="likeEvent(event.id)"
+            />
+            <p-button
+              pTooltip="Compartilhar"
+              tooltipPosition="left"
+              icon="pi pi-share-alt"
+              [rounded]="true"
+              [text]="true"
+            />
+          </div>
         </div>
       </ng-template>
     </p-card>
