@@ -18,7 +18,9 @@
     <h2 class="text-2xl">{{ userEvent().name }}</h2>
   </ng-template>
   <ng-template #subtitle>
-    <p>{{ userEvent().description }}</p>
+    <p>
+      {{ userEvent().description ? userEvent().description : userEvent().name }}
+    </p>
   </ng-template>
   <div class="my-2 gap-2 flex flex-col text-surface-600">
     <p>
@@ -59,14 +61,6 @@
         </div>
       </div>
       <div class="flex gap-1">
-        <p-button
-          pTooltip="Gostei"
-          tooltipPosition="left"
-          icon="pi pi-heart"
-          [rounded]="true"
-          [text]="true"
-          (onClick)="likeEvent(userEvent().id)"
-        />
         <p-button
           pTooltip="Compartilhar"
           tooltipPosition="left"

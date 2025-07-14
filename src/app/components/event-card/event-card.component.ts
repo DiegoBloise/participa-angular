@@ -28,8 +28,4 @@ export class EventCardComponent {
     const target = event.target as HTMLImageElement;
     target.src = 'https://placehold.co/600x400';
   }
-
-  likeEvent(eventId: string) {
-    console.log(eventId);
-  }
 }
