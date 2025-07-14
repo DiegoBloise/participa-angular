@@ -6,6 +6,11 @@ import { definePreset } from '@primeng/themes';
 import Lara from '@primeng/themes/lara';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+
+registerLocaleData(localePt);
 
 const MyPreset = definePreset(Lara, {
   primitive: {
@@ -684,5 +689,6 @@ export const appConfig: ApplicationConfig = {
       ripple: true,
     }),
     provideHttpClient(),
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
   ],
 };

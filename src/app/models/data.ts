@@ -20,6 +20,7 @@ export const data = [
       role: 'admin',
       name: 'Ana Souza',
       profilePic: 'https://example.com/profiles/ana.jpg',
+      phone: '11983274625',
     },
     category: {
       id: 'cat1',
@@ -43,6 +44,7 @@ export const data = [
       role: 'user',
       name: 'João Artesão',
       profilePic: 'https://example.com/profiles/joao.jpg',
+      phone: '11994728163',
     },
     category: {
       id: 'cat2',
@@ -67,6 +69,7 @@ export const data = [
       role: 'admin',
       name: 'Marcos Lima',
       profilePic: 'https://example.com/profiles/marcos.jpg',
+      phone: '11992358741',
     },
     category: {
       id: 'cat1',
@@ -91,6 +94,7 @@ export const data = [
       role: 'user',
       name: 'Clara Mendes',
       profilePic: 'https://example.com/profiles/clara.jpg',
+      phone: '11996471239',
     },
     category: {
       id: 'cat3',
@@ -115,6 +119,7 @@ export const data = [
       role: 'user',
       name: 'Luis Oliveira',
       profilePic: 'https://example.com/profiles/luis.jpg',
+      phone: '11993847126',
     },
     category: {
       id: 'cat4',

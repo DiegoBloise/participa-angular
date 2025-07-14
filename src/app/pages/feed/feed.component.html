@@ -1,5 +1,63 @@
-<div class="flex flex-col content-center">
+<div class="flex flex-col content-center max-w-[850px] m-auto">
   <topbar />
 
-  <h1 class="text-3xl ml-2 font-bold">Próximos eventos</h1>
+  <h1 class="text-3xl ml-5 mb-5 font-bold md:text-left text-center">
+    Próximos eventos
+  </h1>
+
+  <div class="flex flex-wrap gap-3 justify-center m-auto">
+    @for (event of events; track $index) {
+    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+      <ng-template #header>
+        <img
+          alt="Event Banner"
+          class="w-full"
+          [src]="event.banner ? event.banner : 'https://placehold.co/600x400'"
+          (error)="onImageError($event)"
+        />
+      </ng-template>
+      <ng-template #title>
+        <h2 class="text-2xl">{{ event.name }}</h2>
+      </ng-template>
+      <ng-template #subtitle>
+        <p>{{ event.description }}</p>
+      </ng-template>
+      <div class="my-2 gap-2 flex flex-col text-surface-600">
+        <p>
+          <i class="pi pi-calendar-clock mr-1"></i>
+          {{ event.startAt | date : "EEEE, d 'de' MMMM 'de' y 'às' HH:mm" }}
+        </p>
+        <p>
+          <i class="pi pi-map-marker mr-1"></i>
+          {{ event.location }}
+        </p>
+      </div>
+      <ng-template #footer>
+        <div class="flex gap-4 mt-5 justify-between items-center">
+          <div class="flex items-center">
+            <p-avatar
+              label="{{ event.organizer.name[0] }}"
+              class="mr-2"
+              size="large"
+              shape="circle"
+            />
+            <div class="flex flex-col">
+              <h3 class="font-bold text-surface-600">
+                {{ event.organizer.name }}
+              </h3>
+              <p>{{ event.organizer.email }}</p>
+            </div>
+          </div>
+          <p-button
+            pTooltip="Compartilhar"
+            tooltipPosition="left"
+            icon="pi pi-share-alt"
+            [rounded]="true"
+            [text]="true"
+          />
+        </div>
+      </ng-template>
+    </p-card>
+    }
+  </div>
 </div>
