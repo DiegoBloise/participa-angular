@@ -10,8 +10,13 @@ import { SpeedDialModule } from 'primeng/speeddial';
 import { ToastModule } from 'primeng/toast';
 import { EventCardComponent } from '../../components/event-card/event-card.component';
 import { TopbarComponent } from '../../components/topbar/topbar.component';
-import { data } from '../../models/data';
-import { UserEvent } from '../../models/interfaces';
+import { categorias, data } from '../../models/data';
+import { Category, UserEvent } from '../../models/interfaces';
+import { DialogModule } from 'primeng/dialog';
+import { TextareaModule } from 'primeng/textarea';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { DatePickerModule } from 'primeng/datepicker';
+import { SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'feed',
@@ -26,6 +31,11 @@ import { UserEvent } from '../../models/interfaces';
     InputTextModule,
     FloatLabelModule,
     FormsModule,
+    DialogModule,
+    TextareaModule,
+    InputNumberModule,
+    DatePickerModule,
+    SelectModule,
   ],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.css',
@@ -44,6 +54,8 @@ export class FeedComponent implements OnInit {
 
   constructor(private messageService: MessageService) {}
 
+  categorias: Category[] = categorias;
+
   ngOnInit() {
     this.items = [
       {
@@ -60,6 +72,7 @@ export class FeedComponent implements OnInit {
   }
 
   createEvent() {
+    this.showDialog();
     this.messageService.add({
       severity: 'success',
       summary: 'Evento Criado',
@@ -73,5 +86,11 @@ export class FeedComponent implements OnInit {
       summary: 'Evento Atualizado',
       detail: 'O evento foi atualizado com sucesso!',
     });
+  }
+
+  visible: boolean = false;
+
+  showDialog() {
+    this.visible = true;
   }
 }
