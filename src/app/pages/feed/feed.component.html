@@ -1,13 +1,54 @@
-<div class="flex flex-col content-center max-w-[850px] m-auto">
-  <topbar />
+<topbar />
+<div class="flex flex-col gap-5 content-center max-w-[850px] m-auto p-5">
+  <div class="flex flex-row gap-3 justify-between items-center">
+    <p-floatlabel variant="on" class="w-full">
+      <p-iconfield>
+        <p-inputicon class="pi pi-search" />
+        <input
+          class="w-full"
+          pInputText
+          id="on_label"
+          [(ngModel)]="value3"
+          autocomplete="off"
+        />
+      </p-iconfield>
+      <label for="on_label">Buscar Evento</label>
+    </p-floatlabel>
+    <div class="md:flex flex-row gap-1 hidden">
+      <p-button
+        label="Criar"
+        icon="pi pi-plus"
+        severity="success"
+        (onClick)="createEvent()"
+      />
+      <p-button
+        label="Modificar"
+        icon="pi pi-pencil"
+        severity="warn"
+        (onClick)="updateEvent()"
+      />
+    </div>
+  </div>
 
-  <h1 class="text-3xl ml-5 mb-5 font-bold md:text-left text-center">
-    Próximos eventos
-  </h1>
+  <h1 class="text-3xl font-bold md:text-left text-center">Próximos eventos</h1>
 
-  <div class="flex flex-wrap gap-3 justify-center m-auto">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3 justify-center m-auto">
     @for (event of events; track $index) {
-    <app-event-card [userEvent]="event" />
+    <app-event-card class="mb-5" [userEvent]="event" />
     }
   </div>
+
+  <p-speeddial
+    [model]="items"
+    direction="up"
+    class="fixed bottom-3 right-3 md:hidden"
+    [buttonProps]="{
+      severity: 'success',
+      rounded: true,
+      raised: true,
+      size: 'large'
+    }"
+    [tooltipOptions]="{ tooltipPosition: 'left' }"
+  />
+  <p-toast />
 </div>
