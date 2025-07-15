@@ -59,7 +59,27 @@
     <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
       <div class="flex flex-col gap-1 mb-4">
         <label for="name">Nome</label>
-        <input pInputText id="name" autocomplete="off" formControlName="name" />
+        <input
+          pInputText
+          id="name"
+          autocomplete="off"
+          formControlName="name"
+          [invalid]="isInvalid('name')"
+        />
+        @if (isInvalid('name')) { @if
+        (eventForm.get('name')?.errors?.['required']) {
+        <p-message severity="error" size="small" variant="simple">
+          Nome é obrigatório.
+        </p-message>
+        } @if (eventForm.get('name')?.errors?.['minlength']) {
+        <p-message severity="error" size="small" variant="simple">
+          Nome deve ter pelo menos 3 caracteres.
+        </p-message>
+        } @if (eventForm.get('name')?.errors?.['maxlength']) {
+        <p-message severity="error" size="small" variant="simple">
+          Nome não pode exceder 42 caracteres.
+        </p-message>
+        } }
       </div>
 
       <div class="flex flex-col gap-1 mb-4">
@@ -70,7 +90,14 @@
           cols="30"
           pTextarea
           formControlName="description"
+          [invalid]="isInvalid('description')"
         ></textarea>
+        @if (isInvalid('description')) { @if
+        (eventForm.get('description')?.errors?.['maxlength']) {
+        <p-message severity="error" size="small" variant="simple">
+          Descrição não pode exceder 255 caracteres.
+        </p-message>
+        } }
       </div>
 
       <div class="flex flex-col gap-1 mb-4">
@@ -110,7 +137,14 @@
             hourFormat="24"
             appendTo="body"
             formControlName="startAt"
+            [invalid]="isInvalid('startAt')"
           />
+          @if (isInvalid('startAt')) { @if
+          (eventForm.get('startAt')?.errors?.['required']) {
+          <p-message severity="error" size="small" variant="simple">
+            Data de início é obrigatória.
+          </p-message>
+          } }
         </div>
         <div class="flex flex-col gap-1">
           <label for="end-at">Data de encerramento</label>
@@ -122,7 +156,14 @@
             hourFormat="24"
             appendTo="body"
             formControlName="endAt"
+            [invalid]="isInvalid('endAt')"
           />
+          @if (isInvalid('endAt')) { @if
+          (eventForm.get('endAt')?.errors?.['required']) {
+          <p-message severity="error" size="small" variant="simple">
+            Data de encerramento é obrigatória.
+          </p-message>
+          } }
         </div>
       </div>
 
@@ -133,7 +174,22 @@
           id="location"
           autocomplete="off"
           formControlName="location"
+          [invalid]="isInvalid('location')"
         />
+        @if (isInvalid('location')) { @if
+        (eventForm.get('location')?.errors?.['required']) {
+        <p-message severity="error" size="small" variant="simple">
+          Local é obrigatório.
+        </p-message>
+        } @if (eventForm.get('location')?.errors?.['minlength']) {
+        <p-message severity="error" size="small" variant="simple">
+          Local deve ter pelo menos 3 caracteres.
+        </p-message>
+        } @if (eventForm.get('location')?.errors?.['maxlength']) {
+        <p-message severity="error" size="small" variant="simple">
+          Local não pode exceder 42 caracteres.
+        </p-message>
+        } }
       </div>
 
       <div class="flex flex-col gap-1 mb-4" formGroupName="category">
@@ -149,7 +205,14 @@
           appendTo="body"
           showClear="true"
           formControlName="title"
+          [invalid]="isInvalid('category.title')"
         />
+        @if (isInvalid('category.title')) { @if
+        (eventForm.get('category.title')?.errors?.['required']) {
+        <p-message severity="error" size="small" variant="simple">
+          Categoria é obrigatória.
+        </p-message>
+        } }
       </div>
 
       <div formGroupName="organizer">
@@ -160,7 +223,22 @@
             id="organizer-name"
             autocomplete="off"
             formControlName="name"
+            [invalid]="isInvalid('organizer.name')"
           />
+          @if (isInvalid('organizer.name')) { @if
+          (eventForm.get('organizer.name')?.errors?.['required']) {
+          <p-message severity="error" size="small" variant="simple">
+            Nome do organizador é obrigatório.
+          </p-message>
+          } @if (eventForm.get('organizer.name')?.errors?.['minlength']) {
+          <p-message severity="error" size="small" variant="simple">
+            Nome do organizador deve ter pelo menos 3 caracteres.
+          </p-message>
+          } @if (eventForm.get('organizer.name')?.errors?.['maxlength']) {
+          <p-message severity="error" size="small" variant="simple">
+            Nome do organizador não pode exceder 42 caracteres.
+          </p-message>
+          } }
         </div>
 
         <div class="flex flex-row gap-1">
@@ -168,12 +246,24 @@
             <label for="email">Email</label>
             <input
               pInputText
+              type="email"
               id="email"
               autocomplete="off"
               formControlName="email"
               placeholder="exemplo@mail.com"
-              class="w-full"
+              fluid
+              [invalid]="isInvalid('organizer.email')"
             />
+            @if (isInvalid('organizer.email')) { @if
+            (eventForm.get('organizer.email')?.errors?.['required']) {
+            <p-message severity="error" size="small" variant="simple"
+              >Email é obrigatório.</p-message
+            >
+            } @if (eventForm.get('organizer.email')?.errors?.['email']) {
+            <p-message severity="error" size="small" variant="simple"
+              >Por favor informe um email válido.</p-message
+            >
+            } }
           </div>
 
           <div class="flex flex-col gap-1 mb-4">
@@ -183,14 +273,14 @@
               mask="(99) 99999-9999"
               placeholder="(99) 99999-9999"
               formControlName="phone"
-              styleClass="w-full"
+              fluid
             />
           </div>
         </div>
       </div>
 
       <div class="flex justify-end gap-2">
-        <p-button icon="pi pi-times" label="Cancelar" (click)="cancel()" text />
+        <p-button icon="pi pi-times" label="Cancelar" (click)="reset()" text />
         <p-button icon="pi pi-check" label="Salvar" type="submit" />
       </div>
     </form>

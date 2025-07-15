@@ -18,6 +18,7 @@ import { EventCardComponent } from '../../components/event-card/event-card.compo
 import { TopbarComponent } from '../../components/topbar/topbar.component';
 import { categorias, events } from '../../models/data';
 import { Category, UserEvent } from '../../models/interfaces';
+import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'feed',
@@ -27,6 +28,7 @@ import { Category, UserEvent } from '../../models/interfaces';
     ButtonModule,
     SpeedDialModule,
     ToastModule,
+    MessageModule,
     InputIconModule,
     IconFieldModule,
     InputTextModule,
@@ -42,22 +44,24 @@ import { Category, UserEvent } from '../../models/interfaces';
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.css',
   providers: [MessageService],
+  standalone: true,
 })
 export class FeedComponent implements OnInit {
-  constructor(private messageService: MessageService) {}
+  constructor() {}
 
   events?: UserEvent[] = events;
   categorias?: Category[] = categorias;
   items: MenuItem[] | null = null;
 
+  formSubmitted: boolean = false;
+
   private formBuilder = inject(FormBuilder);
+  private messageService = inject(MessageService);
 
   eventForm = this.formBuilder.group({
     name: [
       '',
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(42),
+      [Validators.required, Validators.minLength(3), Validators.maxLength(42)],
     ],
     description: ['', Validators.maxLength(255)],
     banner: [''],
@@ -66,17 +70,17 @@ export class FeedComponent implements OnInit {
     endAt: ['', Validators.required],
     location: [
       '',
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(42),
+      [Validators.required, Validators.minLength(3), Validators.maxLength(42)],
     ],
     organizer: this.formBuilder.group({
-      email: ['', Validators.required, Validators.email],
+      email: ['', [Validators.required, Validators.email]],
       name: [
         '',
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(42),
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(42),
+        ],
       ],
       phone: [''],
     }),
@@ -105,16 +109,19 @@ export class FeedComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.eventForm.value);
+    this.formSubmitted = true;
+    if (this.eventForm.valid) {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Evento Criado',
+        detail: 'O evento foi criado com sucesso!',
+      });
+      this.reset();
+    }
   }
 
   createEvent() {
     this.showDialog();
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Evento Criado',
-      detail: 'O evento foi criado com sucesso!',
-    });
   }
 
   updateEvent() {
@@ -135,11 +142,21 @@ export class FeedComponent implements OnInit {
     this.visible = false;
   }
 
-  cancel() {
+  isInvalid(controlPath: string): boolean {
+    const control = this.eventForm.get(controlPath);
+    return !!(
+      control &&
+      control.invalid &&
+      (control.touched || this.formSubmitted)
+    );
+  }
+
+  reset() {
     this.hideDialog();
     this.eventForm.reset();
     this.eventForm.patchValue({
       maxParticipants: 2,
     });
+    this.formSubmitted = false;
   }
 }
