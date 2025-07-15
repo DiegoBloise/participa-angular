@@ -53,17 +53,13 @@
     [(visible)]="visible"
     draggable="false"
     closable="false"
+    [breakpoints]="{ '575px': '90vw' }"
+    [style]="{ width: '30rem' }"
   >
     <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
       <div class="flex flex-col gap-1 mb-4">
         <label for="name">Nome</label>
-        <input
-          pInputText
-          id="name"
-          class="flex-auto"
-          autocomplete="off"
-          formControlName="name"
-        />
+        <input pInputText id="name" autocomplete="off" formControlName="name" />
       </div>
 
       <div class="flex flex-col gap-1 mb-4">
@@ -82,7 +78,6 @@
         <input
           pInputText
           id="banner"
-          class="flex-auto"
           autocomplete="off"
           formControlName="banner"
         />
@@ -113,7 +108,6 @@
             [readonlyInput]="true"
             [showTime]="true"
             hourFormat="24"
-            class="w-54"
             appendTo="body"
             formControlName="startAt"
           />
@@ -126,7 +120,6 @@
             [readonlyInput]="true"
             [showTime]="true"
             hourFormat="24"
-            class="w-54"
             appendTo="body"
             formControlName="endAt"
           />
@@ -138,7 +131,6 @@
         <input
           pInputText
           id="location"
-          class="flex-auto"
           autocomplete="off"
           formControlName="location"
         />
@@ -154,7 +146,6 @@
           filterBy="title"
           [showClear]="true"
           placeholder="Selecionar categoria"
-          class="w-full"
           appendTo="body"
           showClear="true"
           formControlName="title"
@@ -167,32 +158,34 @@
           <input
             pInputText
             id="organizer-name"
-            class="flex-auto"
             autocomplete="off"
             formControlName="name"
           />
         </div>
 
-        <div class="flex flex-col gap-1 mb-4">
-          <label for="email">Email</label>
-          <input
-            pInputText
-            id="email"
-            class="flex-auto"
-            autocomplete="off"
-            formControlName="email"
-          />
-        </div>
+        <div class="flex flex-row gap-1">
+          <div class="flex flex-col gap-1 mb-4">
+            <label for="email">Email</label>
+            <input
+              pInputText
+              id="email"
+              autocomplete="off"
+              formControlName="email"
+              placeholder="exemplo@mail.com"
+              class="w-full"
+            />
+          </div>
 
-        <div class="flex flex-col gap-1 mb-4">
-          <label for="phone">Telefone</label>
-          <input
-            pInputText
-            id="phone"
-            class="flex-auto"
-            autocomplete="off"
-            formControlName="phone"
-          />
+          <div class="flex flex-col gap-1 mb-4">
+            <label for="phone">Telefone</label>
+            <p-inputmask
+              inputId="phone"
+              mask="(99) 99999-9999"
+              placeholder="(99) 99999-9999"
+              formControlName="phone"
+              styleClass="w-full"
+            />
+          </div>
         </div>
       </div>
 

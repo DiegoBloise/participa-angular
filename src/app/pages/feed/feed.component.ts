@@ -7,6 +7,7 @@ import { DialogModule } from 'primeng/dialog';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
@@ -36,6 +37,7 @@ import { Category, UserEvent } from '../../models/interfaces';
     DatePickerModule,
     SelectModule,
     ReactiveFormsModule,
+    InputMaskModule,
   ],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.css',
