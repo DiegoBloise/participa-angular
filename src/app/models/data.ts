@@ -1,8 +1,8 @@
-export const data = [
+export const events = [
   {
     id: 'evt1',
     name: 'Tech Conference 2025',
-    banner: 'https://example.com/banners/tech2025.jpg',
+    banner: '',
     description: 'Evento anual com foco em inovação tecnológica.',
     created_at: '2025-06-01T10:00:00Z',
     updated_at: '2025-07-01T15:30:00Z',
@@ -10,11 +10,9 @@ export const data = [
     endAt: '2025-08-10T18:00:00Z',
     location: 'Centro de Convenções SP',
     maxParticipants: 500,
-    participants: 320,
     organizer: {
       id: 'usr1',
       email: 'ana.tech@example.com',
-      password: 'hashed_password',
       name: 'Ana Souza',
       phone: '11983274625',
     },
@@ -29,11 +27,9 @@ export const data = [
     endAt: '2025-09-15T20:00:00Z',
     location: 'Praça Central',
     maxParticipants: 200,
-    participants: 150,
     organizer: {
       id: 'usr2',
       email: 'joao.artesao@example.com',
-      password: 'hashed_password',
       name: 'João Artesão',
       phone: '11994728163',
     },
@@ -49,11 +45,9 @@ export const data = [
     endAt: '2025-10-06T18:00:00Z',
     location: 'Universidade Federal',
     maxParticipants: 100,
-    participants: 90,
     organizer: {
       id: 'usr3',
       email: 'marcos.dev@example.com',
-      password: 'hashed_password',
       name: 'Marcos Lima',
       phone: '11992358741',
     },
@@ -64,16 +58,13 @@ export const data = [
   {
     id: 'evt4',
     name: 'Festival de Música',
-    banner: 'https://example.com/banners/musicfest.jpg',
     startAt: '2025-11-20T16:00:00Z',
     endAt: '2025-11-22T23:00:00Z',
     location: 'Parque das Nações',
     maxParticipants: 1000,
-    participants: 870,
     organizer: {
       id: 'usr4',
       email: 'clara.music@example.com',
-      password: 'hashed_password',
       name: 'Clara Mendes',
       phone: '11996471239',
     },
@@ -89,11 +80,9 @@ export const data = [
     endAt: '2025-07-25T18:00:00Z',
     location: 'Espaço Criativo',
     maxParticipants: 50,
-    participants: 45,
     organizer: {
       id: 'usr5',
       email: 'luis.foto@example.com',
-      password: 'hashed_password',
       name: 'Luis Oliveira',
       phone: '11993847126',
     },

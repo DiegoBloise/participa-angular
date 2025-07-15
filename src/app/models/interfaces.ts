@@ -9,7 +9,6 @@ export interface UserEvent {
   endAt: string;
   location: string;
   maxParticipants: number;
-  participants?: number;
   organizer: User;
   category: Category;
 }
@@ -22,7 +21,6 @@ export interface Category {
 export interface User {
   id: string;
   email: string;
-  password: string;
   name: string;
   phone: string;
 }
