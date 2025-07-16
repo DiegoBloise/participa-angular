@@ -26,6 +26,12 @@
 
   <h1 class="text-3xl font-bold md:text-left text-center">Próximos eventos</h1>
 
+  @if (!events?.length) {
+  <h2 class="mt-5 text-1xl md:text-left text-center">
+    Nenhum evento encontrado.
+  </h2>
+  }
+
   <div class="grid grid-cols-1 md:grid-cols-2 gap-3 justify-center m-auto">
     @for (event of events; track $index) {
     <app-event-card class="mb-5" [userEvent]="event" />
