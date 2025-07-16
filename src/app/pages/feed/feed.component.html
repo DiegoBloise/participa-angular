@@ -138,6 +138,7 @@
             appendTo="body"
             formControlName="startAt"
             [invalid]="isInvalid('startAt')"
+            [minDate]="minStartDate"
           />
           @if (isInvalid('startAt')) { @if
           (eventForm.get('startAt')?.errors?.['required']) {
@@ -157,12 +158,18 @@
             appendTo="body"
             formControlName="endAt"
             [invalid]="isInvalid('endAt')"
+            [minDate]="minEndDate"
           />
           @if (isInvalid('endAt')) { @if
           (eventForm.get('endAt')?.errors?.['required']) {
-          <p-message severity="error" size="small" variant="simple">
-            Data de encerramento é obrigatória.
-          </p-message>
+          <p-message severity="error" size="small" variant="simple"
+            >Data de encerramento é obrigatória.</p-message
+          >
+          } @if (eventForm.get('endAt')?.errors?.['endTooSoon']) {
+          <p-message severity="error" size="small" variant="simple"
+            >A data de encerramento deve ser pelo menos 30 minutos após o
+            início.</p-message
+          >
           } }
         </div>
       </div>

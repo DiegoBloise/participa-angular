@@ -19,6 +19,7 @@ import { TopbarComponent } from '../../components/topbar/topbar.component';
 import { categorias, events } from '../../models/data';
 import { Category, UserEvent } from '../../models/interfaces';
 import { MessageModule } from 'primeng/message';
+import { endAfterStartValidator } from '../../validators/date.validator';
 
 @Component({
   selector: 'feed',
@@ -49,6 +50,9 @@ import { MessageModule } from 'primeng/message';
 export class FeedComponent implements OnInit {
   constructor() {}
 
+  minStartDate?: Date;
+  minEndDate?: Date | null;
+
   events?: UserEvent[] = events;
   categorias?: Category[] = categorias;
   items: MenuItem[] | null = null;
@@ -67,7 +71,7 @@ export class FeedComponent implements OnInit {
     banner: [''],
     maxParticipants: [2],
     startAt: ['', Validators.required],
-    endAt: ['', Validators.required],
+    endAt: ['', [Validators.required, endAfterStartValidator('startAt', 30)]],
     location: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(42)],
@@ -106,6 +110,25 @@ export class FeedComponent implements OnInit {
         command: () => this.updateEvent(),
       },
     ];
+
+    this.eventForm.get('startAt')?.valueChanges.subscribe((startAt) => {
+      const endAtControl = this.eventForm.get('endAt');
+
+      if (startAt) {
+        const date = new Date(startAt);
+        if (!isNaN(date.getTime())) {
+          date.setMinutes(date.getMinutes() + 30);
+          this.minEndDate = date;
+          endAtControl?.enable();
+        } else {
+          this.minEndDate = null;
+          endAtControl?.disable();
+        }
+      } else {
+        this.minEndDate = null;
+        endAtControl?.disable();
+      }
+    });
   }
 
   onSubmit() {
@@ -121,6 +144,7 @@ export class FeedComponent implements OnInit {
   }
 
   createEvent() {
+    this.minStartDate = new Date();
     this.showDialog();
   }
 
