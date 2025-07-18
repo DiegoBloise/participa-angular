@@ -56,7 +56,7 @@
   <p-dialog
     header="Criar Evento"
     [modal]="true"
-    [(visible)]="visible"
+    [(visible)]="eventDetailsDialog"
     draggable="false"
     closable="false"
     [breakpoints]="{ '575px': '90vw' }"
@@ -297,5 +297,42 @@
         <p-button icon="pi pi-check" label="Salvar" type="submit" />
       </div>
     </form>
+  </p-dialog>
+
+  <p-dialog
+    header="Evento criado com sucesso!"
+    [modal]="true"
+    [(visible)]="eventCreatedDialog"
+    draggable="false"
+    closable="false"
+    [breakpoints]="{ '575px': '90vw' }"
+    [style]="{ width: '30rem' }"
+  >
+    <div class="flex flex-col gap-8">
+      <span class="p-text-secondary block"
+        >Anote o código de acesso para modificar ou excluir o evento.</span
+      >
+      <p-message severity="success">
+        <div class="flex flex-row items-center gap-5">
+          <p>Código de acesso:</p>
+          <p>
+            <strong>{{ eventAccessCode?.accessCode }}</strong>
+          </p>
+          <p-button
+            outlined
+            severity="primary"
+            label="Copiar"
+            (onClick)="copyCodeHandler()"
+          />
+        </div>
+      </p-message>
+      <p-button
+        class="self-end"
+        text
+        severity="primary"
+        label="Fechar"
+        (onClick)="hideEventCreatedDialog()"
+      />
+    </div>
   </p-dialog>
 </div>

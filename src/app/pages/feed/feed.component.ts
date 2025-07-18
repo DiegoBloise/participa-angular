@@ -49,6 +49,8 @@ import { CategoryService } from '../../services/category/category.service';
   standalone: true,
 })
 export class FeedComponent implements OnInit {
+  private formBuilder = inject(FormBuilder);
+  private messageService = inject(MessageService);
   private eventService = inject(EventService);
   private categoryService = inject(CategoryService);
 
@@ -64,9 +66,8 @@ export class FeedComponent implements OnInit {
   items: MenuItem[] | null = null;
 
   formSubmitted: boolean = false;
-
-  private formBuilder = inject(FormBuilder);
-  private messageService = inject(MessageService);
+  eventDetailsDialog: boolean = false;
+  eventCreatedDialog: boolean = false;
 
   eventForm = this.formBuilder.group({
     name: [
@@ -144,19 +145,22 @@ export class FeedComponent implements OnInit {
     if (this.eventForm.valid) {
       this.eventService
         .createEvent(this.eventForm.value as UserEvent)
-        .subscribe((data: EventAccessCode) => (this.eventAccessCode = data));
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Evento Criado',
-        detail: 'O evento foi criado com sucesso!' + this.eventAccessCode,
-      });
+        .subscribe((data: EventAccessCode) => {
+          this.eventAccessCode = data;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Evento Criado',
+            detail: 'O evento foi criado com sucesso!',
+          });
+          this.showEventCreatedDialog();
+        });
       this.reset();
     }
   }
 
   createEvent() {
     this.minStartDate = new Date();
-    this.showDialog();
+    this.showEventDetailsDialog();
   }
 
   updateEvent() {
@@ -167,14 +171,20 @@ export class FeedComponent implements OnInit {
     });
   }
 
-  visible: boolean = false;
-
-  showDialog() {
-    this.visible = true;
+  showEventDetailsDialog() {
+    this.eventDetailsDialog = true;
   }
 
-  hideDialog() {
-    this.visible = false;
+  hideEventDetailsDialog() {
+    this.eventDetailsDialog = false;
+  }
+
+  showEventCreatedDialog() {
+    this.eventCreatedDialog = true;
+  }
+
+  hideEventCreatedDialog() {
+    this.eventCreatedDialog = false;
   }
 
   isInvalid(controlPath: string): boolean {
@@ -187,11 +197,24 @@ export class FeedComponent implements OnInit {
   }
 
   reset() {
-    this.hideDialog();
+    this.hideEventDetailsDialog();
     this.eventForm.reset();
     this.eventForm.patchValue({
       maxParticipants: 2,
     });
     this.formSubmitted = false;
+  }
+
+  copyCodeHandler() {
+    try {
+      navigator.clipboard.writeText(this.eventAccessCode?.accessCode as string);
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Código copiado',
+        detail: 'Código de acesso copiado para a área de transferencia!',
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
