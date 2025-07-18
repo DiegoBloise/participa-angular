@@ -17,7 +17,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { EventCardComponent } from '../../components/event-card/event-card.component';
 import { TopbarComponent } from '../../components/topbar/topbar.component';
-import { Category, UserEvent } from '../../models/interfaces';
+import { Category, EventAccessCode, UserEvent } from '../../models/interfaces';
 import { EventService } from '../../services/event/event.service';
 import { endAfterStartValidator } from '../../validators/date.validator';
 import { CategoryService } from '../../services/category/category.service';
@@ -59,6 +59,8 @@ export class FeedComponent implements OnInit {
 
   events?: UserEvent[];
   categories?: Category[];
+  eventAccessCode?: EventAccessCode;
+
   items: MenuItem[] | null = null;
 
   formSubmitted: boolean = false;
@@ -87,14 +89,12 @@ export class FeedComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(42),
+          Validators.maxLength(32),
         ],
       ],
       phone: [''],
     }),
-    category: this.formBuilder.group({
-      title: ['', Validators.required],
-    }),
+    category: [{} as Category, Validators.required],
   });
 
   ngOnInit() {
@@ -142,10 +142,13 @@ export class FeedComponent implements OnInit {
   onSubmit() {
     this.formSubmitted = true;
     if (this.eventForm.valid) {
+      this.eventService
+        .createEvent(this.eventForm.value as UserEvent)
+        .subscribe((data: EventAccessCode) => (this.eventAccessCode = data));
       this.messageService.add({
         severity: 'success',
         summary: 'Evento Criado',
-        detail: 'O evento foi criado com sucesso!',
+        detail: 'O evento foi criado com sucesso!' + this.eventAccessCode,
       });
       this.reset();
     }

@@ -1,5 +1,5 @@
 export interface UserEvent {
-  id: string;
+  id?: string;
   name: string;
   banner?: string;
   description?: string;
@@ -23,7 +23,7 @@ export interface Category {
 }
 
 export interface User {
-  id: string;
+  id?: string;
   email: string;
   name: string;
   phone: string;

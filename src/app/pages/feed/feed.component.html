@@ -205,7 +205,7 @@
         } }
       </div>
 
-      <div class="flex flex-col gap-1 mb-4" formGroupName="category">
+      <div class="flex flex-col gap-1 mb-4">
         <label for="category">Categoria</label>
         <p-select
           id="category"
@@ -217,11 +217,11 @@
           placeholder="Selecionar categoria"
           appendTo="body"
           showClear="true"
-          formControlName="title"
-          [invalid]="isInvalid('category.title')"
+          formControlName="category"
+          [invalid]="isInvalid('category')"
         />
-        @if (isInvalid('category.title')) { @if
-        (eventForm.get('category.title')?.errors?.['required']) {
+        @if (isInvalid('category')) { @if
+        (eventForm.get('category')?.errors?.['required']) {
         <p-message severity="error" size="small" variant="simple">
           Categoria é obrigatória.
         </p-message>
