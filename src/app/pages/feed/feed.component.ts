@@ -10,16 +10,17 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
+import { MessageModule } from 'primeng/message';
 import { SelectModule } from 'primeng/select';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { EventCardComponent } from '../../components/event-card/event-card.component';
 import { TopbarComponent } from '../../components/topbar/topbar.component';
-import { categorias, events } from '../../models/data';
 import { Category, UserEvent } from '../../models/interfaces';
-import { MessageModule } from 'primeng/message';
+import { EventService } from '../../services/event/event.service';
 import { endAfterStartValidator } from '../../validators/date.validator';
+import { CategoryService } from '../../services/category/category.service';
 
 @Component({
   selector: 'feed',
@@ -48,13 +49,16 @@ import { endAfterStartValidator } from '../../validators/date.validator';
   standalone: true,
 })
 export class FeedComponent implements OnInit {
+  private eventService = inject(EventService);
+  private categoryService = inject(CategoryService);
+
   constructor() {}
 
   minStartDate?: Date;
   minEndDate?: Date | null;
 
-  events?: UserEvent[] = events;
-  categorias?: Category[] = categorias;
+  events?: UserEvent[];
+  categories?: Category[];
   items: MenuItem[] | null = null;
 
   formSubmitted: boolean = false;
@@ -94,9 +98,13 @@ export class FeedComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.events = events;
+    this.eventService
+      .getEvents()
+      .subscribe((data: UserEvent[]) => (this.events = data));
 
-    this.categorias = categorias;
+    this.categoryService
+      .getCategories()
+      .subscribe((data: Category[]) => (this.categories = data));
 
     this.items = [
       {
