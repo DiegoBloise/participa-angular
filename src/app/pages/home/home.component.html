@@ -14,6 +14,7 @@
   closable="false"
   [breakpoints]="{ '575px': '90vw' }"
   [style]="{ width: '30rem' }"
+  blockScroll
 >
   <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
     <div class="flex flex-col gap-1 mb-4">
@@ -260,10 +261,11 @@
   closable="false"
   [breakpoints]="{ '575px': '90vw' }"
   [style]="{ width: '30rem' }"
+  blockScroll
 >
   <div class="flex flex-col gap-8">
     <span class="p-text-secondary block"
-      >Anote o código de acesso para modificar ou excluir o evento.</span
+      >Anote o código de acesso para alterar ou excluir o evento.</span
     >
     <p-message severity="success">
       <div class="flex flex-row items-center gap-5">
@@ -287,4 +289,56 @@
       (onClick)="hideEventCreatedDialog()"
     />
   </div>
+</p-dialog>
+
+<p-dialog
+  header="Alteração de Evento"
+  [modal]="true"
+  [(visible)]="updateEventDialog"
+  draggable="false"
+  closable="false"
+  [breakpoints]="{ '575px': '90vw' }"
+  [style]="{ width: '30rem' }"
+  blockScroll
+>
+  <form [formGroup]="updateEventForm" (ngSubmit)="onUpdateEventSubmit()">
+    <div class="flex flex-col gap-6">
+      <span class="p-text-secondary block"
+        >Informe o código de acesso para alterar ou excluir o evento.</span
+      >
+      <div class="flex flex-col gap-1">
+        <label for="access-code">Código de Acesso</label>
+        <input
+          pInputText
+          id="access-code"
+          autocomplete="off"
+          formControlName="accessCode"
+          [invalid]="isInvalid('accessCode')"
+        />
+        @if (isInvalid('accessCode')) { @if
+        (updateEventForm.get('accessCode')?.errors?.['required']) {
+        <p-message severity="error" size="small" variant="simple">
+          Código de Acesso é obrigatório.
+        </p-message>
+        } @if (updateEventForm.get('accessCode')?.errors?.['minlength']) {
+        <p-message severity="error" size="small" variant="simple">
+          Código de Acesso deve ter pelo menos 8 caracteres.
+        </p-message>
+        } @if (updateEventForm.get('accessCode')?.errors?.['maxlength']) {
+        <p-message severity="error" size="small" variant="simple">
+          Código de Acesso não pode exceder 8 caracteres.
+        </p-message>
+        } }
+      </div>
+      <div class="flex justify-end gap-2 mt-8">
+        <p-button
+          text
+          severity="primary"
+          label="Fechar"
+          (onClick)="hideUpdateEventDialog()"
+        />
+        <p-button icon="pi pi-pencil" label="Alterar" type="submit" />
+      </div>
+    </div>
+  </form>
 </p-dialog>

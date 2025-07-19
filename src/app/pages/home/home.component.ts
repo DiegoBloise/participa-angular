@@ -65,6 +65,9 @@ export class HomeComponent implements OnInit {
   formSubmitted: boolean = false;
   eventDetailsDialog: boolean = false;
   eventCreatedDialog: boolean = false;
+  updateEventDialog: boolean = false;
+
+  selectedEventId?: string;
 
   eventForm = this.formBuilder.group({
     name: [
@@ -95,6 +98,13 @@ export class HomeComponent implements OnInit {
     category: [{} as Category, Validators.required],
   });
 
+  updateEventForm = this.formBuilder.group({
+    accessCode: [
+      '',
+      [Validators.required, Validators.minLength(8), Validators.maxLength(8)],
+    ],
+  });
+
   ngOnInit() {
     this.categoryService
       .getCategories()
@@ -123,18 +133,52 @@ export class HomeComponent implements OnInit {
   onSubmit() {
     this.formSubmitted = true;
     if (this.eventForm.valid) {
-      this.eventService
-        .createEvent(this.eventForm.value as UserEvent)
-        .subscribe((data: CreatedEvent) => {
-          this.createdEvent = data;
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Evento Criado',
-            detail: 'O evento foi criado com sucesso!',
+      if (this.selectedEventId) {
+        this.eventService
+          .updateEvent({
+            ...(this.eventForm.value as UserEvent),
+            id: this.selectedEventId,
+          })
+          .subscribe((data: CreatedEvent) => {
+            this.createdEvent = data;
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Evento Atualizado',
+              detail: 'O evento foi atualizado com sucesso!',
+            });
+            this.router.navigate([`/event/${this.createdEvent?.eventId}`]);
           });
-          this.showEventCreatedDialog();
-        });
+      } else {
+        this.eventService
+          .createEvent(this.eventForm.value as UserEvent)
+          .subscribe((data: CreatedEvent) => {
+            this.createdEvent = data;
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Evento Criado',
+              detail: 'O evento foi criado com sucesso!',
+            });
+            this.router.navigate([`/event/${this.createdEvent?.eventId}`]);
+            this.showEventCreatedDialog();
+          });
+      }
       this.reset();
+    }
+  }
+
+  onUpdateEventSubmit() {
+    this.formSubmitted = true;
+    if (this.updateEventForm.valid) {
+      this.eventService
+        .getEventByAccessCode(
+          this.updateEventForm.get('accessCode')?.value as string
+        )
+        .subscribe((data: UserEvent) => {
+          this.selectedEventId = data.id;
+          this.eventForm.patchValue(data);
+          this.hideUpdateEventDialog();
+          this.createEvent();
+        });
     }
   }
 
@@ -144,11 +188,7 @@ export class HomeComponent implements OnInit {
   }
 
   updateEvent() {
-    this.messageService.add({
-      severity: 'info',
-      summary: 'Evento Atualizado',
-      detail: 'O evento foi atualizado com sucesso!',
-    });
+    this.showUpdateEventDialog();
   }
 
   showEventDetailsDialog() {
@@ -165,7 +205,14 @@ export class HomeComponent implements OnInit {
 
   hideEventCreatedDialog() {
     this.eventCreatedDialog = false;
-    this.router.navigate([`/event/${this.createdEvent?.eventId}`]);
+  }
+
+  showUpdateEventDialog() {
+    this.updateEventDialog = true;
+  }
+
+  hideUpdateEventDialog() {
+    this.updateEventDialog = false;
   }
 
   isInvalid(controlPath: string): boolean {
@@ -179,6 +226,8 @@ export class HomeComponent implements OnInit {
 
   reset() {
     this.hideEventDetailsDialog();
+    this.updateEventForm.reset();
+    this.selectedEventId = undefined;
     this.eventForm.reset();
     this.eventForm.patchValue({
       maxParticipants: 2,

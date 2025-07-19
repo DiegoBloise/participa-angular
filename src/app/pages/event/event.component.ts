@@ -26,7 +26,7 @@ export class EventComponent implements OnInit {
   private eventService: EventService = inject(EventService);
   private route: ActivatedRoute = inject(ActivatedRoute);
 
-  userEvent!: UserEvent;
+  userEvent: UserEvent = {} as UserEvent;
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
