@@ -1,0 +1,37 @@
+<div class="flex flex-row gap-3 justify-between items-center">
+  <p-floatlabel variant="on" class="w-full">
+    <p-iconfield>
+      <p-inputicon class="pi pi-search" />
+      <input class="w-full" pInputText id="on_label" autocomplete="off" />
+    </p-iconfield>
+    <label for="on_label">Buscar Evento</label>
+  </p-floatlabel>
+
+  <div class="md:flex flex-row gap-1 hidden">
+    <p-button
+      label="Criar"
+      icon="pi pi-plus"
+      severity="success"
+      (onClick)="createEvent.emit()"
+    />
+    <p-button
+      label="Modificar"
+      icon="pi pi-pencil"
+      severity="warn"
+      (onClick)="updateEvent.emit()"
+    />
+  </div>
+
+  <p-speeddial
+    [model]="items"
+    direction="up"
+    class="fixed bottom-3 right-3 md:hidden"
+    [buttonProps]="{
+      severity: 'success',
+      rounded: true,
+      raised: true,
+      size: 'large'
+    }"
+    [tooltipOptions]="{ tooltipPosition: 'left' }"
+  />
+</div>

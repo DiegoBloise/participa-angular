@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EventAccessCode, UserEvent } from '../../models/interfaces';
+import { CreatedEvent, UserEvent } from '../../models/interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -20,12 +20,12 @@ export class EventService {
     return this.http.get<UserEvent>(`${this.apiUrl}/${accessCode}`);
   }
 
-  createEvent(userEvent: UserEvent): Observable<EventAccessCode> {
-    return this.http.post<EventAccessCode>(this.apiUrl, userEvent);
+  createEvent(userEvent: UserEvent): Observable<CreatedEvent> {
+    return this.http.post<CreatedEvent>(this.apiUrl, userEvent);
   }
 
-  updateEvent(userEvent: UserEvent): Observable<EventAccessCode> {
-    return this.http.put<EventAccessCode>(this.apiUrl, userEvent);
+  updateEvent(userEvent: UserEvent): Observable<CreatedEvent> {
+    return this.http.put<CreatedEvent>(this.apiUrl, userEvent);
   }
 
   deleteEvent(userEventId: string): Observable<void> {

@@ -1,1 +1,290 @@
-<router-outlet />
+<topbar />
+<div class="flex flex-col gap-5 content-center max-w-[850px] m-auto p-5">
+  <app-actions (createEvent)="createEvent()" (updateEvent)="updateEvent()" />
+  <router-outlet />
+</div>
+
+<p-toast />
+
+<p-dialog
+  header="Criar Evento"
+  [modal]="true"
+  [(visible)]="eventDetailsDialog"
+  draggable="false"
+  closable="false"
+  [breakpoints]="{ '575px': '90vw' }"
+  [style]="{ width: '30rem' }"
+>
+  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <div class="flex flex-col gap-1 mb-4">
+      <label for="name">Nome</label>
+      <input
+        pInputText
+        id="name"
+        autocomplete="off"
+        formControlName="name"
+        [invalid]="isInvalid('name')"
+      />
+      @if (isInvalid('name')) { @if
+      (eventForm.get('name')?.errors?.['required']) {
+      <p-message severity="error" size="small" variant="simple">
+        Nome é obrigatório.
+      </p-message>
+      } @if (eventForm.get('name')?.errors?.['minlength']) {
+      <p-message severity="error" size="small" variant="simple">
+        Nome deve ter pelo menos 3 caracteres.
+      </p-message>
+      } @if (eventForm.get('name')?.errors?.['maxlength']) {
+      <p-message severity="error" size="small" variant="simple">
+        Nome não pode exceder 42 caracteres.
+      </p-message>
+      } }
+    </div>
+
+    <div class="flex flex-col gap-1 mb-4">
+      <label for="description">Descrição</label>
+      <textarea
+        id="description"
+        rows="5"
+        cols="30"
+        pTextarea
+        formControlName="description"
+        [invalid]="isInvalid('description')"
+      ></textarea>
+      @if (isInvalid('description')) { @if
+      (eventForm.get('description')?.errors?.['maxlength']) {
+      <p-message severity="error" size="small" variant="simple">
+        Descrição não pode exceder 255 caracteres.
+      </p-message>
+      } }
+    </div>
+
+    <div class="flex flex-col gap-1 mb-4">
+      <label for="banner">Foto de Capa (URL)</label>
+      <input
+        pInputText
+        id="banner"
+        autocomplete="off"
+        formControlName="banner"
+      />
+    </div>
+
+    <div class="flex flex-col gap-1 mb-4">
+      <label for="participants">Máximo de participantes</label>
+      <p-inputnumber
+        [showButtons]="true"
+        buttonLayout="horizontal"
+        spinnerMode="horizontal"
+        inputId="participants"
+        [min]="2"
+        [max]="999999999"
+        allowEmpty="false"
+        incrementButtonIcon="pi pi-plus"
+        decrementButtonIcon="pi pi-minus"
+        formControlName="maxParticipants"
+      />
+    </div>
+
+    <div class="flex flex-row gap-1 mb-4">
+      <div class="flex flex-col gap-1">
+        <label for="start-at">Data de início</label>
+        <p-datepicker
+          id="start-at"
+          [showIcon]="true"
+          [readonlyInput]="true"
+          [showTime]="true"
+          hourFormat="24"
+          appendTo="body"
+          formControlName="startAt"
+          [invalid]="isInvalid('startAt')"
+          [minDate]="minStartDate"
+        />
+        @if (isInvalid('startAt')) { @if
+        (eventForm.get('startAt')?.errors?.['required']) {
+        <p-message severity="error" size="small" variant="simple">
+          Data de início é obrigatória.
+        </p-message>
+        } }
+      </div>
+      <div class="flex flex-col gap-1">
+        <label for="end-at">Data de encerramento</label>
+        <p-datepicker
+          id="end-at"
+          [showIcon]="true"
+          [readonlyInput]="true"
+          [showTime]="true"
+          hourFormat="24"
+          appendTo="body"
+          formControlName="endAt"
+          [invalid]="isInvalid('endAt')"
+          [minDate]="minEndDate"
+        />
+        @if (isInvalid('endAt')) { @if
+        (eventForm.get('endAt')?.errors?.['required']) {
+        <p-message severity="error" size="small" variant="simple"
+          >Data de encerramento é obrigatória.</p-message
+        >
+        } @if (eventForm.get('endAt')?.errors?.['endTooSoon']) {
+        <p-message severity="error" size="small" variant="simple"
+          >A data de encerramento deve ser pelo menos 30 minutos após o
+          início.</p-message
+        >
+        } }
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-1 mb-4">
+      <label for="location">Local</label>
+      <input
+        pInputText
+        id="location"
+        autocomplete="off"
+        formControlName="location"
+        [invalid]="isInvalid('location')"
+      />
+      @if (isInvalid('location')) { @if
+      (eventForm.get('location')?.errors?.['required']) {
+      <p-message severity="error" size="small" variant="simple">
+        Local é obrigatório.
+      </p-message>
+      } @if (eventForm.get('location')?.errors?.['minlength']) {
+      <p-message severity="error" size="small" variant="simple">
+        Local deve ter pelo menos 3 caracteres.
+      </p-message>
+      } @if (eventForm.get('location')?.errors?.['maxlength']) {
+      <p-message severity="error" size="small" variant="simple">
+        Local não pode exceder 42 caracteres.
+      </p-message>
+      } }
+    </div>
+
+    <div class="flex flex-col gap-1 mb-4">
+      <label for="category">Categoria</label>
+      <p-select
+        id="category"
+        [options]="categories"
+        optionLabel="title"
+        [filter]="true"
+        filterBy="title"
+        [showClear]="true"
+        placeholder="Selecionar categoria"
+        appendTo="body"
+        showClear="true"
+        formControlName="category"
+        [invalid]="isInvalid('category')"
+      />
+      @if (isInvalid('category')) { @if
+      (eventForm.get('category')?.errors?.['required']) {
+      <p-message severity="error" size="small" variant="simple">
+        Categoria é obrigatória.
+      </p-message>
+      } }
+    </div>
+
+    <div formGroupName="organizer">
+      <div class="flex flex-col gap-1 mb-4">
+        <label for="organizer-name">Nome do Organizador</label>
+        <input
+          pInputText
+          id="organizer-name"
+          autocomplete="off"
+          formControlName="name"
+          [invalid]="isInvalid('organizer.name')"
+        />
+        @if (isInvalid('organizer.name')) { @if
+        (eventForm.get('organizer.name')?.errors?.['required']) {
+        <p-message severity="error" size="small" variant="simple">
+          Nome do organizador é obrigatório.
+        </p-message>
+        } @if (eventForm.get('organizer.name')?.errors?.['minlength']) {
+        <p-message severity="error" size="small" variant="simple">
+          Nome do organizador deve ter pelo menos 3 caracteres.
+        </p-message>
+        } @if (eventForm.get('organizer.name')?.errors?.['maxlength']) {
+        <p-message severity="error" size="small" variant="simple">
+          Nome do organizador não pode exceder 42 caracteres.
+        </p-message>
+        } }
+      </div>
+
+      <div class="flex flex-row gap-1">
+        <div class="flex flex-col gap-1 mb-4">
+          <label for="email">Email</label>
+          <input
+            pInputText
+            type="email"
+            id="email"
+            autocomplete="off"
+            formControlName="email"
+            placeholder="exemplo@mail.com"
+            fluid
+            [invalid]="isInvalid('organizer.email')"
+          />
+          @if (isInvalid('organizer.email')) { @if
+          (eventForm.get('organizer.email')?.errors?.['required']) {
+          <p-message severity="error" size="small" variant="simple"
+            >Email é obrigatório.</p-message
+          >
+          } @if (eventForm.get('organizer.email')?.errors?.['email']) {
+          <p-message severity="error" size="small" variant="simple"
+            >Por favor informe um email válido.</p-message
+          >
+          } }
+        </div>
+
+        <div class="flex flex-col gap-1 mb-4">
+          <label for="phone">Telefone</label>
+          <p-inputmask
+            inputId="phone"
+            mask="(99) 99999-9999"
+            placeholder="(99) 99999-9999"
+            formControlName="phone"
+            fluid
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-2">
+      <p-button icon="pi pi-times" label="Cancelar" (click)="reset()" text />
+      <p-button icon="pi pi-check" label="Salvar" type="submit" />
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog
+  header="Evento criado com sucesso!"
+  [modal]="true"
+  [(visible)]="eventCreatedDialog"
+  draggable="false"
+  closable="false"
+  [breakpoints]="{ '575px': '90vw' }"
+  [style]="{ width: '30rem' }"
+>
+  <div class="flex flex-col gap-8">
+    <span class="p-text-secondary block"
+      >Anote o código de acesso para modificar ou excluir o evento.</span
+    >
+    <p-message severity="success">
+      <div class="flex flex-row items-center gap-5">
+        <p>Código de acesso:</p>
+        <p>
+          <strong>{{ createdEvent?.accessCode }}</strong>
+        </p>
+        <p-button
+          outlined
+          severity="primary"
+          label="Copiar"
+          (onClick)="copyCodeHandler()"
+        />
+      </div>
+    </p-message>
+    <p-button
+      class="self-end"
+      text
+      severity="primary"
+      label="Fechar"
+      (onClick)="hideEventCreatedDialog()"
+    />
+  </div>
+</p-dialog>

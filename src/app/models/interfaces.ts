@@ -13,7 +13,8 @@ export interface UserEvent {
   category: Category;
 }
 
-export interface EventAccessCode {
+export interface CreatedEvent {
+  eventId: string;
   accessCode: string;
 }
 
