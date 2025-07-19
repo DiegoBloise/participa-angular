@@ -5,17 +5,23 @@
       value="{{ userEvent().category.title }}"
       [rounded]="true"
     />
-    <img
-      alt="Event Banner"
-      class="w-full"
-      [src]="
-        userEvent().banner ? userEvent().banner : 'https://placehold.co/600x400'
-      "
-      (error)="onImageError($event)"
-    />
+    <a [routerLink]="`/event/${userEvent().id}`">
+      <img
+        alt="Event Banner"
+        class="w-full"
+        [src]="
+          userEvent().banner
+            ? userEvent().banner
+            : 'https://placehold.co/600x400'
+        "
+        (error)="onImageError($event)"
+      />
+    </a>
   </ng-template>
   <ng-template #title>
-    <h2 class="text-2xl">{{ userEvent().name }}</h2>
+    <a [routerLink]="`/event/${userEvent().id}`">
+      <h2 class="text-2xl">{{ userEvent().name }}</h2>
+    </a>
   </ng-template>
   <ng-template #subtitle>
     <p>

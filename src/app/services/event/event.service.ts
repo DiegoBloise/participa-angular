@@ -16,8 +16,12 @@ export class EventService {
     return this.http.get<UserEvent[]>(this.apiUrl);
   }
 
+  getEventById(id: string): Observable<UserEvent> {
+    return this.http.get<UserEvent>(`${this.apiUrl}/${id}`);
+  }
+
   getEventByAccessCode(accessCode: string): Observable<UserEvent> {
-    return this.http.get<UserEvent>(`${this.apiUrl}/${accessCode}`);
+    return this.http.get<UserEvent>(`${this.apiUrl}/code/${accessCode}`);
   }
 
   createEvent(userEvent: UserEvent): Observable<CreatedEvent> {

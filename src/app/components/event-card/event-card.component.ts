@@ -6,6 +6,7 @@ import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 import { UserEvent } from '../../models/interfaces';
 import { TooltipModule } from 'primeng/tooltip';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-event-card',
@@ -17,6 +18,7 @@ import { TooltipModule } from 'primeng/tooltip';
     TooltipModule,
     TagModule,
     SlicePipe,
+    RouterLink
   ],
   templateUrl: './event-card.component.html',
   styleUrl: './event-card.component.css',
