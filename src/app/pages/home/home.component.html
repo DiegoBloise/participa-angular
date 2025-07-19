@@ -313,29 +313,20 @@
           id="access-code"
           autocomplete="off"
           formControlName="accessCode"
-          [invalid]="isInvalid('accessCode')"
+          [invalid]="isInvalidAccessCode('accessCode')"
         />
-        @if (isInvalid('accessCode')) { @if
-        (updateEventForm.get('accessCode')?.errors?.['required']) {
+        @if (isInvalidAccessCode('accessCode')) {
         <p-message severity="error" size="small" variant="simple">
-          Código de Acesso é obrigatório.
+          Código de acesso inválido.
         </p-message>
-        } @if (updateEventForm.get('accessCode')?.errors?.['minlength']) {
-        <p-message severity="error" size="small" variant="simple">
-          Código de Acesso deve ter pelo menos 8 caracteres.
-        </p-message>
-        } @if (updateEventForm.get('accessCode')?.errors?.['maxlength']) {
-        <p-message severity="error" size="small" variant="simple">
-          Código de Acesso não pode exceder 8 caracteres.
-        </p-message>
-        } }
+        }
       </div>
       <div class="flex justify-end gap-2 mt-8">
         <p-button
+          icon="pi pi-times"
+          label="Cancelar"
+          (click)="hideUpdateEventDialog()"
           text
-          severity="primary"
-          label="Fechar"
-          (onClick)="hideUpdateEventDialog()"
         />
         <p-button icon="pi pi-pencil" label="Alterar" type="submit" />
       </div>

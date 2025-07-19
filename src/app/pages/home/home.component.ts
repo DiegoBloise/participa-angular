@@ -212,11 +212,21 @@ export class HomeComponent implements OnInit {
   }
 
   hideUpdateEventDialog() {
+    this.updateEventForm.reset();
     this.updateEventDialog = false;
   }
 
   isInvalid(controlPath: string): boolean {
     const control = this.eventForm.get(controlPath);
+    return !!(
+      control &&
+      control.invalid &&
+      (control.touched || this.formSubmitted)
+    );
+  }
+
+  isInvalidAccessCode(controlPath: string): boolean {
+    const control = this.updateEventForm.get(controlPath);
     return !!(
       control &&
       control.invalid &&
