@@ -5,7 +5,7 @@
       value="{{ userEvent().category.title }}"
       [rounded]="true"
     />
-    <a [routerLink]="`/event/${userEvent().id}`">
+    <a [routerLink]="['/event', userEvent().id]">
       <img
         alt="Event Banner"
         class="w-full"
@@ -19,7 +19,7 @@
     </a>
   </ng-template>
   <ng-template #title>
-    <a [routerLink]="`/event/${userEvent().id}`">
+    <a [routerLink]="['/event', userEvent().id]">
       <h2 class="text-2xl">{{ userEvent().name }}</h2>
     </a>
   </ng-template>
