@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -56,18 +56,18 @@ export class HomeComponent implements OnInit {
 
   constructor() {}
 
-  minStartDate?: Date;
-  minEndDate?: Date | null;
+  minStartDate = signal<Date | null>(null);
+  minEndDate = signal<Date | null>(null);
 
-  categories?: Category[];
-  createdEvent?: CreatedEvent;
+  categories = signal<Category[]>([]);
+  createdEvent = signal<CreatedEvent>({} as CreatedEvent);
 
-  formSubmitted: boolean = false;
-  eventDetailsDialog: boolean = false;
-  eventCreatedDialog: boolean = false;
-  updateEventDialog: boolean = false;
+  formSubmitted = signal<boolean>(false);
+  eventDetailsDialog = signal<boolean>(false);
+  eventCreatedDialog = signal<boolean>(false);
+  updateEventDialog = signal<boolean>(false);
 
-  selectedEventId?: string;
+  selectedEventId = signal<string | undefined>(undefined);
 
   eventForm = this.formBuilder.group({
     name: [
@@ -108,7 +108,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.categoryService
       .getCategories()
-      .subscribe((data: Category[]) => (this.categories = data));
+      .subscribe((data: Category[]) => this.categories.set(data));
 
     this.eventForm.get('startAt')?.valueChanges.subscribe((startAt) => {
       const endAtControl = this.eventForm.get('endAt');
@@ -117,48 +117,48 @@ export class HomeComponent implements OnInit {
         const date = new Date(startAt);
         if (!isNaN(date.getTime())) {
           date.setMinutes(date.getMinutes() + 30);
-          this.minEndDate = date;
+          this.minEndDate.set(date);
           endAtControl?.enable();
         } else {
-          this.minEndDate = null;
+          this.minEndDate.set(null);
           endAtControl?.disable();
         }
       } else {
-        this.minEndDate = null;
+        this.minEndDate.set(null);
         endAtControl?.disable();
       }
     });
   }
 
   onSubmit() {
-    this.formSubmitted = true;
+    this.formSubmitted.set(true);
     if (this.eventForm.valid) {
       if (this.selectedEventId) {
         this.eventService
           .updateEvent({
             ...(this.eventForm.value as UserEvent),
-            id: this.selectedEventId,
+            id: this.selectedEventId(),
           })
           .subscribe((data: CreatedEvent) => {
-            this.createdEvent = data;
+            this.createdEvent.set(data);
             this.messageService.add({
               severity: 'info',
               summary: 'Evento Atualizado',
               detail: 'O evento foi atualizado com sucesso!',
             });
-            this.router.navigate([`/event/${this.createdEvent?.eventId}`]);
+            this.router.navigate([`/event/${this.createdEvent().eventId}`]);
           });
       } else {
         this.eventService
           .createEvent(this.eventForm.value as UserEvent)
           .subscribe((data: CreatedEvent) => {
-            this.createdEvent = data;
+            this.createdEvent.set(data);
             this.messageService.add({
               severity: 'success',
               summary: 'Evento Criado',
               detail: 'O evento foi criado com sucesso!',
             });
-            this.router.navigate([`/event/${this.createdEvent?.eventId}`]);
+            this.router.navigate([`/event/${this.createdEvent().eventId}`]);
             this.showEventCreatedDialog();
           });
       }
@@ -167,14 +167,14 @@ export class HomeComponent implements OnInit {
   }
 
   onUpdateEventSubmit() {
-    this.formSubmitted = true;
+    this.formSubmitted.set(true);
     if (this.updateEventForm.valid) {
       this.eventService
         .getEventByAccessCode(
           this.updateEventForm.get('accessCode')?.value as string
         )
         .subscribe((data: UserEvent) => {
-          this.selectedEventId = data.id;
+          this.selectedEventId.set(data.id);
           this.eventForm.patchValue(data);
           this.hideUpdateEventDialog();
           this.createEvent();
@@ -183,7 +183,7 @@ export class HomeComponent implements OnInit {
   }
 
   createEvent() {
-    this.minStartDate = new Date();
+    this.minStartDate.set(new Date());
     this.showEventDetailsDialog();
   }
 
@@ -192,28 +192,28 @@ export class HomeComponent implements OnInit {
   }
 
   showEventDetailsDialog() {
-    this.eventDetailsDialog = true;
+    this.eventDetailsDialog.set(true);
   }
 
   hideEventDetailsDialog() {
-    this.eventDetailsDialog = false;
+    this.eventDetailsDialog.set(false);
   }
 
   showEventCreatedDialog() {
-    this.eventCreatedDialog = true;
+    this.eventCreatedDialog.set(true);
   }
 
   hideEventCreatedDialog() {
-    this.eventCreatedDialog = false;
+    this.eventCreatedDialog.set(false);
   }
 
   showUpdateEventDialog() {
-    this.updateEventDialog = true;
+    this.updateEventDialog.set(true);
   }
 
   hideUpdateEventDialog() {
     this.updateEventForm.reset();
-    this.updateEventDialog = false;
+    this.updateEventDialog.set(false);
   }
 
   isInvalid(controlPath: string): boolean {
@@ -221,7 +221,7 @@ export class HomeComponent implements OnInit {
     return !!(
       control &&
       control.invalid &&
-      (control.touched || this.formSubmitted)
+      (control.touched || this.formSubmitted())
     );
   }
 
@@ -230,24 +230,24 @@ export class HomeComponent implements OnInit {
     return !!(
       control &&
       control.invalid &&
-      (control.touched || this.formSubmitted)
+      (control.touched || this.formSubmitted())
     );
   }
 
   reset() {
     this.hideEventDetailsDialog();
     this.updateEventForm.reset();
-    this.selectedEventId = undefined;
+    this.selectedEventId.set(undefined);
     this.eventForm.reset();
     this.eventForm.patchValue({
       maxParticipants: 2,
     });
-    this.formSubmitted = false;
+    this.formSubmitted.set(false);
   }
 
   copyCodeHandler() {
     try {
-      navigator.clipboard.writeText(this.createdEvent?.accessCode as string);
+      navigator.clipboard.writeText(this.createdEvent().accessCode as string);
       this.messageService.add({
         severity: 'info',
         summary: 'Código copiado',

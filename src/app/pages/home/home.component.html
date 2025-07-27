@@ -98,7 +98,7 @@
           appendTo="body"
           formControlName="startAt"
           [invalid]="isInvalid('startAt')"
-          [minDate]="minStartDate"
+          [minDate]="minStartDate()"
         />
         @if (isInvalid('startAt')) { @if
         (eventForm.get('startAt')?.errors?.['required']) {
@@ -118,7 +118,7 @@
           appendTo="body"
           formControlName="endAt"
           [invalid]="isInvalid('endAt')"
-          [minDate]="minEndDate"
+          [minDate]="minEndDate()"
         />
         @if (isInvalid('endAt')) { @if
         (eventForm.get('endAt')?.errors?.['required']) {
@@ -163,7 +163,7 @@
       <label for="category">Categoria</label>
       <p-select
         id="category"
-        [options]="categories"
+        [options]="categories()"
         optionLabel="title"
         [filter]="true"
         filterBy="title"
@@ -271,7 +271,7 @@
       <div class="flex flex-row items-center gap-5">
         <p>Código de acesso:</p>
         <p>
-          <strong>{{ createdEvent?.accessCode }}</strong>
+          <strong>{{ createdEvent().accessCode }}</strong>
         </p>
         <p-button
           outlined

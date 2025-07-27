@@ -7,6 +7,4 @@ import { LogoComponent } from '../logo/logo.component';
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.css',
 })
-export class TopbarComponent {
-  visible = false;
-}
+export class TopbarComponent {}

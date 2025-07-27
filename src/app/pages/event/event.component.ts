@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -26,12 +26,12 @@ export class EventComponent implements OnInit {
   private eventService: EventService = inject(EventService);
   private route: ActivatedRoute = inject(ActivatedRoute);
 
-  userEvent: UserEvent = {} as UserEvent;
+  userEvent = signal<UserEvent>({} as UserEvent);
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.eventService.getEventById(params['eventId']).subscribe((data) => {
-        this.userEvent = data;
+        this.userEvent.set(data);
       });
     });
   }

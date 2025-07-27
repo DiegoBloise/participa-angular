@@ -1,9 +1,9 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 justify-center m-auto">
-  @if (!events?.length) {
+  @if (!events().length) {
   <h2 class="mt-5 text-1xl md:text-left text-center">
     Nenhum evento encontrado.
   </h2>
-  } @for (event of events; track $index) {
+  } @for (event of events(); track $index) {
   <app-event-card class="mb-5" [userEvent]="event" />
   }
 </div>
