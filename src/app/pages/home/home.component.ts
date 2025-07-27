@@ -132,38 +132,33 @@ export class HomeComponent implements OnInit {
 
   onSubmit() {
     this.formSubmitted.set(true);
-    if (this.eventForm.valid) {
-      if (this.selectedEventId) {
-        this.eventService
-          .updateEvent({
-            ...(this.eventForm.value as UserEvent),
-            id: this.selectedEventId(),
-          })
-          .subscribe((data: CreatedEvent) => {
-            this.createdEvent.set(data);
-            this.messageService.add({
-              severity: 'info',
-              summary: 'Evento Atualizado',
-              detail: 'O evento foi atualizado com sucesso!',
-            });
-            this.router.navigate([`/event/${this.createdEvent().eventId}`]);
-          });
-      } else {
-        this.eventService
-          .createEvent(this.eventForm.value as UserEvent)
-          .subscribe((data: CreatedEvent) => {
-            this.createdEvent.set(data);
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Evento Criado',
-              detail: 'O evento foi criado com sucesso!',
-            });
-            this.router.navigate([`/event/${this.createdEvent().eventId}`]);
-            this.showEventCreatedDialog();
-          });
-      }
+    if (!this.eventForm.valid) return;
+
+    const eventData = this.eventForm.value as UserEvent;
+    const isEditing = !!this.selectedEventId();
+    const request$ = isEditing
+      ? this.eventService.updateEvent({
+          ...eventData,
+          id: this.selectedEventId(),
+        })
+      : this.eventService.createEvent(eventData);
+
+    request$.subscribe((data: CreatedEvent) => {
+      this.createdEvent.set(data);
+
+      this.messageService.add({
+        severity: isEditing ? 'info' : 'success',
+        summary: isEditing ? 'Evento Atualizado' : 'Evento Criado',
+        detail: isEditing
+          ? 'O evento foi atualizado com sucesso!'
+          : 'O evento foi criado com sucesso!',
+      });
+
+      this.router.navigate(['/event', data.eventId]);
+      if (!isEditing) this.showEventCreatedDialog();
+
       this.reset();
-    }
+    });
   }
 
   onUpdateEventSubmit() {
