@@ -1,20 +1,20 @@
 <p-card class="relative overflow-hidden md:mx-0 md:h-full">
   <ng-template #header>
     <p-tag
-      class="text-3xl absolute top-[1rem] right-[1rem]"
+      class="text-3xl absolute top-[1rem] right-[1rem] z-10"
       value="{{ userEvent().category.title }}"
       [rounded]="true"
     />
     <a [routerLink]="['/event', userEvent().id]">
       <img
-        alt="Event Banner"
+        alt="Imagem de capa do evento"
         class="w-full"
-        [src]="
-          userEvent().banner
-            ? userEvent().banner
-            : 'https://placehold.co/600x400'
-        "
+        [ngSrc]="userEvent().banner ?? 'https://placehold.co/400x250'"
         (error)="onImageError($event)"
+        width="400"
+        height="250"
+        placeholder="https://placehold.co/400x250"
+        [placeholderConfig]="{ blur: false }"
       />
     </a>
   </ng-template>

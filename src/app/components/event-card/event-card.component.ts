@@ -1,4 +1,4 @@
-import { DatePipe, SlicePipe } from '@angular/common';
+import { DatePipe, NgOptimizedImage, SlicePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
@@ -19,6 +19,7 @@ import { UserEvent } from '../../models/interfaces';
     TagModule,
     SlicePipe,
     RouterLink,
+    NgOptimizedImage,
   ],
   templateUrl: './event-card.component.html',
   styleUrl: './event-card.component.css',
@@ -28,6 +29,6 @@ export class EventCardComponent {
 
   onImageError(event: Event) {
     const target = event.target as HTMLImageElement;
-    target.src = 'https://placehold.co/600x400';
+    target.src = 'https://placehold.co/400x250';
   }
 }
