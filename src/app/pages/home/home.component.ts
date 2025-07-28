@@ -21,6 +21,7 @@ import { Category, CreatedEvent, UserEvent } from '../../models/interfaces';
 import { CategoryService } from '../../services/category/category.service';
 import { EventService } from '../../services/event/event.service';
 import { endAfterStartValidator } from '../../validators/date.validator';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',

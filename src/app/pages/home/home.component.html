@@ -33,11 +33,15 @@
       </p-message>
       } @if (eventForm.get('name')?.errors?.['minlength']) {
       <p-message severity="error" size="small" variant="simple">
-        Nome deve ter pelo menos 3 caracteres.
+        Nome deve ter pelo menos
+        {{ eventForm.get('name')?.errors?.['minlength'].requiredLength }}
+        caracteres.
       </p-message>
       } @if (eventForm.get('name')?.errors?.['maxlength']) {
       <p-message severity="error" size="small" variant="simple">
-        Nome não pode exceder 42 caracteres.
+        Nome não pode exceder
+        {{ eventForm.get('name')?.errors?.['maxlength'].requiredLength }}
+        caracteres.
       </p-message>
       } }
     </div>
@@ -55,7 +59,9 @@
       @if (isInvalid('description')) { @if
       (eventForm.get('description')?.errors?.['maxlength']) {
       <p-message severity="error" size="small" variant="simple">
-        Descrição não pode exceder 255 caracteres.
+        Descrição não pode exceder
+        {{ eventForm.get('description')?.errors?.['maxlength'].requiredLength }}
+        caracteres.
       </p-message>
       } }
     </div>
@@ -150,11 +156,15 @@
       </p-message>
       } @if (eventForm.get('location')?.errors?.['minlength']) {
       <p-message severity="error" size="small" variant="simple">
-        Local deve ter pelo menos 3 caracteres.
+        Local deve ter pelo menos
+        {{ eventForm.get('location')?.errors?.['minlength'].requiredLength }}
+        caracteres.
       </p-message>
       } @if (eventForm.get('location')?.errors?.['maxlength']) {
       <p-message severity="error" size="small" variant="simple">
-        Local não pode exceder 42 caracteres.
+        Local não pode exceder
+        {{ eventForm.get('location')?.errors?.['maxlength'].requiredLength }}
+        caracteres.
       </p-message>
       } }
     </div>
@@ -199,11 +209,15 @@
         </p-message>
         } @if (eventForm.get('organizer.name')?.errors?.['minlength']) {
         <p-message severity="error" size="small" variant="simple">
-          Nome do organizador deve ter pelo menos 3 caracteres.
+          Nome do organizador deve ter pelo menos
+          {{ eventForm.get('organizer.name')?.errors?.['minlength'].requiredLength }}
+          caracteres.
         </p-message>
         } @if (eventForm.get('organizer.name')?.errors?.['maxlength']) {
         <p-message severity="error" size="small" variant="simple">
-          Nome do organizador não pode exceder 42 caracteres.
+          Nome do organizador não pode exceder
+          {{ eventForm.get('organizer.name')?.errors?.['maxlength'].requiredLength }}
+          caracteres.
         </p-message>
         } }
       </div>
