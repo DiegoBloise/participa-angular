@@ -21,7 +21,6 @@ import { Category, CreatedEvent, UserEvent } from '../../models/interfaces';
 import { CategoryService } from '../../services/category/category.service';
 import { EventService } from '../../services/event/event.service';
 import { endAfterStartValidator } from '../../validators/date.validator';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -107,9 +106,7 @@ export class HomeComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.categoryService
-      .getCategories()
-      .subscribe((data: Category[]) => this.categories.set(data));
+    this.loadCategories();
 
     this.eventForm.get('startAt')?.valueChanges.subscribe((startAt) => {
       const endAtControl = this.eventForm.get('endAt');
@@ -128,6 +125,20 @@ export class HomeComponent implements OnInit {
         this.minEndDate.set(null);
         endAtControl?.disable();
       }
+    });
+  }
+
+  private loadCategories(): void {
+    this.categoryService.getCategories().subscribe({
+      next: (data) => this.categories.set(data),
+      error: (err) => {
+        console.error('Erro ao buscar categorias:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Não foi possível carregar as categorias.',
+        });
+      },
     });
   }
 
