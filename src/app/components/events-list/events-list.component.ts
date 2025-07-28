@@ -1,12 +1,13 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { UserEvent } from '../../models/interfaces';
 import { EventService } from '../../services/event/event.service';
+import { EventCardSkeletonComponent } from '../event-card-skeleton/event-card-skeleton.component';
 import { EventCardComponent } from '../event-card/event-card.component';
-import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-events-list',
-  imports: [EventCardComponent],
+  imports: [EventCardComponent, EventCardSkeletonComponent],
   templateUrl: './events-list.component.html',
   styleUrl: './events-list.component.css',
 })

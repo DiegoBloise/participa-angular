@@ -1,12 +1,12 @@
 import { DatePipe, SlicePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
-import { UserEvent } from '../../models/interfaces';
 import { TooltipModule } from 'primeng/tooltip';
-import { RouterLink } from '@angular/router';
+import { UserEvent } from '../../models/interfaces';
 
 @Component({
   selector: 'app-event-card',
@@ -18,7 +18,7 @@ import { RouterLink } from '@angular/router';
     TooltipModule,
     TagModule,
     SlicePipe,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './event-card.component.html',
   styleUrl: './event-card.component.css',
