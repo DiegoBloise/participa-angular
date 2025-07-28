@@ -1,19 +1,21 @@
 import { Routes } from '@angular/router';
-import { FeedComponent } from './pages/feed/feed.component';
-import { EventComponent } from './pages/event/event.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: FeedComponent,
+    loadComponent: () =>
+      import('./pages/feed/feed.component').then((m) => m.FeedComponent),
   },
   {
     path: 'event/:eventId',
-    component: EventComponent,
+    loadComponent: () =>
+      import('./pages/event/event.component').then((m) => m.EventComponent),
   },
   {
     path: '**',
-    component: NotFoundComponent,
+    loadComponent: () =>
+      import('./pages/not-found/not-found.component').then(
+        (m) => m.NotFoundComponent
+      ),
   },
 ];
