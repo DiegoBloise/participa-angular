@@ -67,13 +67,7 @@
         </div>
       </div>
       <div class="flex gap-1">
-        <p-button
-          pTooltip="Compartilhar"
-          tooltipPosition="left"
-          icon="pi pi-share-alt"
-          [rounded]="true"
-          [text]="true"
-        />
+        <app-share-event-button [eventId]="userEvent().id ?? ''"/>
       </div>
     </div>
   </ng-template>

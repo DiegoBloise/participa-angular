@@ -7,6 +7,7 @@ import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { UserEvent } from '../../models/interfaces';
+import { ShareEventButtonComponent } from '../share-event-button/share-event-button.component';
 
 @Component({
   selector: 'app-event-card',
@@ -20,6 +21,7 @@ import { UserEvent } from '../../models/interfaces';
     SlicePipe,
     RouterLink,
     NgOptimizedImage,
+    ShareEventButtonComponent,
   ],
   templateUrl: './event-card.component.html',
   styleUrl: './event-card.component.css',

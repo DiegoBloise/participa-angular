@@ -8,6 +8,7 @@ import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { UserEvent } from '../../models/interfaces';
 import { EventService } from '../../services/event/event.service';
+import { ShareEventButtonComponent } from "../../components/share-event-button/share-event-button.component";
 
 @Component({
   selector: 'app-event',
@@ -19,7 +20,8 @@ import { EventService } from '../../services/event/event.service';
     TooltipModule,
     TagModule,
     NgOptimizedImage,
-  ],
+    ShareEventButtonComponent
+],
   templateUrl: './event.component.html',
   styleUrl: './event.component.css',
 })
