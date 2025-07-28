@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgOptimizedImage } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
@@ -18,6 +18,7 @@ import { EventService } from '../../services/event/event.service';
     AvatarModule,
     TooltipModule,
     TagModule,
+    NgOptimizedImage,
   ],
   templateUrl: './event.component.html',
   styleUrl: './event.component.css',
@@ -38,6 +39,6 @@ export class EventComponent implements OnInit {
 
   onImageError(event: Event) {
     const target = event.target as HTMLImageElement;
-    target.src = 'https://placehold.co/600x400';
+    target.src = 'https://placehold.co/400x250';
   }
 }

@@ -6,12 +6,14 @@
       [rounded]="true"
     />
     <img
-      alt="Event Banner"
+      alt="Imagem de capa do evento"
       class="w-full"
-      [src]="
-        userEvent().banner ? userEvent().banner : 'https://placehold.co/600x400'
-      "
+      [ngSrc]="userEvent().banner ?? 'https://placehold.co/400x250'"
       (error)="onImageError($event)"
+      width="400"
+      height="250"
+      placeholder="https://placehold.co/400x250"
+      [placeholderConfig]="{ blur: false }"
     />
   </ng-template>
   <ng-template #title>
