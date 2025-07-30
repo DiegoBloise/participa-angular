@@ -8,7 +8,7 @@ import { CreatedEvent, UserEvent } from '../../models/interfaces';
   providedIn: 'root',
 })
 export class EventService {
-  private apiUrl = `${environment.apiUrl}/events`;
+  private apiUrl = `${environment.API_URL}/events`;
   private http = inject(HttpClient);
 
   constructor() {}

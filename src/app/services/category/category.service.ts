@@ -8,7 +8,7 @@ import { Category } from '../../models/interfaces';
   providedIn: 'root',
 })
 export class CategoryService {
-  private apiUrl = `${environment.apiUrl}/categories`;
+  private apiUrl = `${environment.API_URL}/categories`;
   private http = inject(HttpClient);
 
   constructor() {}
