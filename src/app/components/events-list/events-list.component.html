@@ -1,10 +1,12 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 justify-center m-auto">
   @defer { @for (event of events(); track $index) {
   <app-event-card class="mb-5" [userEvent]="event" />
-  } @empty {
-  <h2 class="mt-5 text-1xl md:text-left text-center">
+  } @empty { @for (_ of [1, 2, 3, 4]; track $index) {
+  <app-event-card-skeleton />
+  }
+  <!-- <h2 class="mt-5 text-1xl md:text-left text-center">
     Nenhum evento encontrado.
-  </h2>
+  </h2> -->
   } } @loading (minimum 1s) { @for (_ of [1, 2, 3, 4]; track $index) {
   <app-event-card-skeleton />
   } } @error {
