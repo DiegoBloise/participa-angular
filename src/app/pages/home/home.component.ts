@@ -1,5 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -223,17 +228,8 @@ export class HomeComponent implements OnInit {
     this.updateEventDialog.set(false);
   }
 
-  isInvalid(controlPath: string): boolean {
-    const control = this.eventForm.get(controlPath);
-    return !!(
-      control &&
-      control.invalid &&
-      (control.touched || this.formSubmitted())
-    );
-  }
-
-  isInvalidAccessCode(controlPath: string): boolean {
-    const control = this.updateEventForm.get(controlPath);
+  isInvalid(form: FormGroup, controlPath: string): boolean {
+    const control = form.get(controlPath);
     return !!(
       control &&
       control.invalid &&

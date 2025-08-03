@@ -24,9 +24,9 @@
         id="name"
         autocomplete="off"
         formControlName="name"
-        [invalid]="isInvalid('name')"
+        [invalid]="isInvalid(eventForm, 'name')"
       />
-      @if (isInvalid('name')) { @if
+      @if (isInvalid(eventForm, 'name')) { @if
       (eventForm.get('name')?.errors?.['required']) {
       <p-message severity="error" size="small" variant="simple">
         Nome é obrigatório.
@@ -54,9 +54,9 @@
         cols="30"
         pTextarea
         formControlName="description"
-        [invalid]="isInvalid('description')"
+        [invalid]="isInvalid(eventForm, 'description')"
       ></textarea>
-      @if (isInvalid('description')) { @if
+      @if (isInvalid(eventForm, 'description')) { @if
       (eventForm.get('description')?.errors?.['maxlength']) {
       <p-message severity="error" size="small" variant="simple">
         Descrição não pode exceder
@@ -103,10 +103,10 @@
           hourFormat="24"
           appendTo="body"
           formControlName="startAt"
-          [invalid]="isInvalid('startAt')"
+          [invalid]="isInvalid(eventForm, 'startAt')"
           [minDate]="minStartDate()"
         />
-        @if (isInvalid('startAt')) { @if
+        @if (isInvalid(eventForm, 'startAt')) { @if
         (eventForm.get('startAt')?.errors?.['required']) {
         <p-message severity="error" size="small" variant="simple">
           Data de início é obrigatória.
@@ -123,10 +123,10 @@
           hourFormat="24"
           appendTo="body"
           formControlName="endAt"
-          [invalid]="isInvalid('endAt')"
+          [invalid]="isInvalid(eventForm, 'endAt')"
           [minDate]="minEndDate()"
         />
-        @if (isInvalid('endAt')) { @if
+        @if (isInvalid(eventForm, 'endAt')) { @if
         (eventForm.get('endAt')?.errors?.['required']) {
         <p-message severity="error" size="small" variant="simple"
           >Data de encerramento é obrigatória.</p-message
@@ -147,9 +147,9 @@
         id="location"
         autocomplete="off"
         formControlName="location"
-        [invalid]="isInvalid('location')"
+        [invalid]="isInvalid(eventForm, 'location')"
       />
-      @if (isInvalid('location')) { @if
+      @if (isInvalid(eventForm, 'location')) { @if
       (eventForm.get('location')?.errors?.['required']) {
       <p-message severity="error" size="small" variant="simple">
         Local é obrigatório.
@@ -182,9 +182,9 @@
         appendTo="body"
         showClear="true"
         formControlName="category"
-        [invalid]="isInvalid('category')"
+        [invalid]="isInvalid(eventForm, 'category')"
       />
-      @if (isInvalid('category')) { @if
+      @if (isInvalid(eventForm, 'category')) { @if
       (eventForm.get('category')?.errors?.['required']) {
       <p-message severity="error" size="small" variant="simple">
         Categoria é obrigatória.
@@ -200,9 +200,9 @@
           id="organizer-name"
           autocomplete="off"
           formControlName="name"
-          [invalid]="isInvalid('organizer.name')"
+          [invalid]="isInvalid(eventForm, 'organizer.name')"
         />
-        @if (isInvalid('organizer.name')) { @if
+        @if (isInvalid(eventForm, 'organizer.name')) { @if
         (eventForm.get('organizer.name')?.errors?.['required']) {
         <p-message severity="error" size="small" variant="simple">
           Nome do organizador é obrigatório.
@@ -233,9 +233,9 @@
             formControlName="email"
             placeholder="exemplo@mail.com"
             fluid
-            [invalid]="isInvalid('organizer.email')"
+            [invalid]="isInvalid(eventForm, 'organizer.email')"
           />
-          @if (isInvalid('organizer.email')) { @if
+          @if (isInvalid(eventForm, 'organizer.email')) { @if
           (eventForm.get('organizer.email')?.errors?.['required']) {
           <p-message severity="error" size="small" variant="simple"
             >Email é obrigatório.</p-message
@@ -327,9 +327,9 @@
           id="access-code"
           autocomplete="off"
           formControlName="accessCode"
-          [invalid]="isInvalidAccessCode('accessCode')"
+          [invalid]="isInvalid(updateEventForm, 'accessCode')"
         />
-        @if (isInvalidAccessCode('accessCode')) {
+        @if (isInvalid(updateEventForm, 'accessCode')) {
         <p-message severity="error" size="small" variant="simple">
           Código de acesso inválido.
         </p-message>
